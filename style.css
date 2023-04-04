@@ -3,3 +3,81 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0.5rem;
+    width: 100%;
+}
+
+nav {
+    color: #0019A5;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.3rem 1rem;
+}
+
+/*---------- Button Styles ----------*/
+.searchBtn, .editBtn{
+    color: #0019A5;
+    background-color: transparent;
+    font-size: 16px;
+    border-radius: 4px;
+    padding: 16px;
+    border: none;
+    font-family: FontAwesome;
+}
+.addBtn {
+    color: #0019A5;
+    font-size: 16px;
+    border-radius: 50%;
+    padding: 16px;
+    border: none;
+    font-family: FontAwesome;
+    background-color: #1670DE;
+}
+
+.todoWrapper {
+    background: linear-gradient(to right bottom, #a5d6ed, #87c3e3, #69b0d9, #4a9cd0, #2589c6);
+}
+
+.todoList {
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+/*---------- ToDo Item ----------*/
+.todoItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.3rem 1rem;
+}
+.todoItem:nth-child(odd){
+    background-color: #5285de33;
+}
+.todoItem:nth-child(even){
+    background-color: #2264d555;
+}
+.todoItem span {
+    flex-grow: 3;
+}
+.todoEdit {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+}
+
+/*---------- App Footer: Add Items----------*/
+.todoAdder {
+    display: flex;
+    justify-content: space-between;
+}
+.todoAdder input {
+    width: 100%;
+}
