@@ -22,7 +22,7 @@
       <nav>
         <h1>ToDo Can Do</h1>
         <button class="searchBtn">
-          <i class="fa-solid fa-magnifying-glass"></i>
+          <i class="fa-solid fa-search"></i>
         </button>
       </nav>
 
@@ -47,6 +47,28 @@
         <div class="todoAdder">
           <input type="text" placeholder="Neues ToDo" />
           <button class="addBtn"><i class="fa-solid fa-plus"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ***** Edit ToDo Modal ***** -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="editModalLabel">ToDo ändern</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="mb-3">
+                <label for="todo-new" class="col-form-label">To Do:</label>
+                <input type="text" class="form-control" id="todo-new">
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+            <button type="button" id="saveEdit" class="btn btn-primary" data-bs-dismiss ="modal">Änderung speichern</button>
+          </div>
         </div>
       </div>
     </div>
