@@ -20,29 +20,30 @@
   <body>
     <div class="container">
       <nav>
-        <span>ToDo Can Do</span>
+        <h1>ToDo Can Do</h1>
         <button class="searchBtn">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </nav>
 
       <div class="todoWrapper">
-        <div class="todoList">
-          <div class="todoItem">
+        <ul class="todoList">
+
+          <!-- ***** Placeholder ToDo-Item *****-->
+          <li class="todoItem" id="1">
             <span>Item 1</span>
-            <div class="todoEdit">
-              <input type="checkbox" class="todoCheckbox unchecked" />
-              <button class="editBtn"><i class="fa-solid fa-bars"></i></button>
+            <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Edit
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">ToDo ändern</a></li>
+                <li><a class="dropdown-item" href="#">ToDo löschen</a></li>
+              </ul>
             </div>
-          </div>
-          <div class="todoItem">
-            <span>Item 2</span>
-            <div class="todoEdit">
-              <input type="checkbox" class="todoCheckbox unchecked" />
-              <button class="editBtn"><i class="fa-solid fa-bars"></i></button>
-            </div>
-          </div>
-        </div>
+          </li>
+          
+        </ul>
         <div class="todoAdder">
           <input type="text" placeholder="Neues ToDo" />
           <button class="addBtn"><i class="fa-solid fa-plus"></i></button>
