@@ -4,10 +4,14 @@
     box-sizing: border-box;
 }
 
+body{
+      background: linear-gradient(to right bottom, #a5d6ed, #87c3e3, #69b0d9, #4a9cd0, #2589c6);
+      min-height: 100vh;
+}
 .container {
     display: flex;
     flex-direction: column;
-    padding: 0.5rem 0.5rem;
+    padding: 0.5rem;
     width: 100%;
 }
 
@@ -46,10 +50,6 @@ nav {
     width: 2.5rem;
 }
 
-.todoWrapper {
-    background: linear-gradient(to right bottom, #a5d6ed, #87c3e3, #69b0d9, #4a9cd0, #2589c6);
-}
-
 .todoList {
     background-color: #f5f5f5;
     display: flex;
@@ -84,9 +84,13 @@ nav {
 }
 /*---------- App Footer: Add Items----------*/
 .todoAdder {
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
     display: flex;
     justify-content: space-between;
-    padding: 0.3rem;
+    z-index: 1;
+    width: calc(100% - 2rem);
 }
 .todoAdder input {
     width: 100%;

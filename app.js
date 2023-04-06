@@ -1,26 +1,36 @@
 //Level2: Save to LocalStorage, use OOPs
-var toDoList = ["Einkaufen","Sport machen","Cookbook verschönern"];
+var toDoList = []//["Einkaufen","Sport machen","Cookbook verschönern"];
 const editModal = document.getElementById('editModal');
 const editBtn = document.getElementById("saveEdit");
 const editInput = document.getElementById("todo-new");
+const addInput = document.getElementById("addInput");
+const addBtn = document.querySelector(".addBtn");
 
 function addToDo(event){
-    //TODO! Code here
+    let newToDo = addInput.value;
+    if(newToDo){
+        toDoList.push(newToDo);
+        renderList();
+        addInput.value = "";
+    } 
 }
 
 function markToDo(event){
-    document.getElementById(event.currentTarget.id).firstChild.classList.toggle("marked");
+    event.currentTarget.classList.toggle("marked");
 }
 
 function editToDo(event){
-    let editedToDo = document.getElementById(event.currentTarget.id).getAttribute("editing");
+    let editedToDo = event.currentTarget.getAttribute("editing");
     let index = toDoList.indexOf(editedToDo);
     toDoList[index] = editInput.value;
     renderList();
 }
 
 function deleteToDo(event){
-    //TODO! Code here
+    let deletingToDo = event.currentTarget.parentElement.parentElement.parentElement.parentElement.firstChild.innerHTML;
+    let index = toDoList.indexOf(deletingToDo);
+    toDoList.splice(index,1);
+    renderList();
 }
 
 function renderList() {
@@ -32,9 +42,9 @@ function renderList() {
         renderItem.id = index;
         let itemText = document.createElement("span");
         itemText.innerHTML = item;
+        itemText.addEventListener("click",markToDo);
         renderItem.appendChild(itemText);
         renderItem.appendChild(createDropdown(item));
-        renderItem.addEventListener("click",markToDo);
 
         list.appendChild(renderItem);
     });
@@ -95,4 +105,5 @@ editModal.addEventListener('show.bs.modal', event => {
 
 
 editBtn.addEventListener("click",editToDo);
+addBtn.addEventListener("click",addToDo);
 renderList();
