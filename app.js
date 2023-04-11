@@ -1,11 +1,17 @@
-//Level2: Save to LocalStorage, use OOPs
+/*--------------- Variablen und HTML Elemente ---------------*/
 var toDoList = []//["Einkaufen","Sport machen","Cookbook verschönern"];
+var markedList = [];
+var isSaved = false;
 const editModal = document.getElementById('editModal');
 const editBtn = document.getElementById("saveEdit");
 const editInput = document.getElementById("todo-new");
 const addInput = document.getElementById("addInput");
 const addBtn = document.querySelector(".addBtn");
+const newListBtn = document.querySelector(".newListBtn");
+const saveListBtn = document.querySelector(".saveListBtn");
+const loadListBtn = document.querySelector(".loadListBtn");
 
+/*--------------- ToDo Funktionen ---------------*/
 function addToDo(event){
     let newToDo = addInput.value;
     if(newToDo){
@@ -16,7 +22,15 @@ function addToDo(event){
 }
 
 function markToDo(event){
-    event.currentTarget.classList.toggle("marked");
+    let currSpan = event.currentTarget;
+    currSpan.classList.toggle("marked");
+    if(markedList.includes(currSpan.innerHTML)) {
+        let index = markedList.indexOf(currSpan.innerHTML);
+        markedList.splice(index,1);
+    }
+    else {
+        markedList.push(currSpan.innerHTML);
+    }
 }
 
 function editToDo(event){
@@ -27,10 +41,28 @@ function editToDo(event){
 }
 
 function deleteToDo(event){
-    let deletingToDo = event.currentTarget.parentElement.parentElement.parentElement.parentElement.firstChild.innerHTML;
+    let deletingToDo = event.currentTarget.getAttribute('data-bs-todo');
     let index = toDoList.indexOf(deletingToDo);
     toDoList.splice(index,1);
     renderList();
+}
+
+/*--------------- Listen Funktionen ---------------*/
+function newList(){
+    if(document.querySelector(".todoList").innerHTML == "" || isSaved) {
+        console.log("Liste leer oder gespeichert");
+    }
+    else {
+        alert("Liste nicht gespeichert");
+    }
+}
+
+function saveList(){
+    isSaved = true;
+}
+
+function loadList(){
+    isSaved = false;
 }
 
 function renderList() {
@@ -70,7 +102,7 @@ function createDropdown(item) {
     editAnchor.classList.add("dropdown-item");
     editAnchor.href = "#editModal";
     editAnchor.setAttribute("data-bs-toggle","modal");
-    editAnchor.setAttribute("data-bs-todo",item)
+    editAnchor.setAttribute("data-bs-todo",item);
     editAnchor.innerHTML = "ToDo ändern";
     optionEdit.appendChild(editAnchor);
     dropdownMenu.appendChild(optionEdit);
@@ -80,6 +112,7 @@ function createDropdown(item) {
     deleteAnchor.classList.add("dropdown-item");
     deleteAnchor.href = "#";
     deleteAnchor.innerHTML = "ToDo löschen";
+    deleteAnchor.setAttribute("data-bs-todo",item);
     deleteAnchor.addEventListener("click", deleteToDo);
     optionDelete.appendChild(deleteAnchor);
     dropdownMenu.appendChild(optionDelete);
@@ -89,7 +122,7 @@ function createDropdown(item) {
     return dropdown;
 }
 
-
+/*--------------- Button Listener ---------------*/
 editModal.addEventListener('show.bs.modal', event => {
     // Link that triggered the modal
     const triggerLink = event.relatedTarget;
@@ -106,4 +139,9 @@ editModal.addEventListener('show.bs.modal', event => {
 
 editBtn.addEventListener("click",editToDo);
 addBtn.addEventListener("click",addToDo);
+newListBtn.addEventListener("click",newList);
+saveListBtn.addEventListener("click",saveList);
+loadListBtn.addEventListener("click",loadList);
+
+/*--------------- Init App ---------------*/
 renderList();
