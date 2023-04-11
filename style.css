@@ -28,15 +28,21 @@ nav {
  }
 
 /*---------- Button Styles ----------*/
-.searchBtn{
+.newListBtn, .saveListBtn, .loadListBtn{
     color: #0019A5;
     background-color: #87c3e3;
-    font-size: 16px;
-    border-radius: 4px;
-    padding: 16px;
+    font-size: 1.8em;
+    border-radius: 0.9em;
+    width: 1.8em;
+    height: 1.8em;
+    /* padding: 4px; */
     border: none;
     font-family: FontAwesome;
 }
+.newListBtn:hover, .saveListBtn:hover, .loadListBtn:hover {
+    background-color: #5793b3;
+}
+
 .addBtn {
     color: #0019A5;
     font-size: 16px;
