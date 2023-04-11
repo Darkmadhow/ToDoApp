@@ -137,8 +137,8 @@ function loadSpecificList(event){
 }
 
 function deleteList(event){
-    // window.localStorage.removeItem(event.currentTarget.getAttribute("deleteList"));
-    document.querySelector(".toDoList").removeChild(event.currentTarget.parentNode);
+    window.localStorage.removeItem(event.currentTarget.getAttribute("deleteList"));
+    event.currentTarget.parentNode.parentNode.removeChild(event.currentTarget.parentNode);
 }
 
 function renderList() {
