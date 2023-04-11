@@ -1,12 +1,20 @@
 /*--------------- Variablen und HTML Elemente ---------------*/
 var toDoList = []//["Einkaufen","Sport machen","Cookbook verschönern"];
 var markedList = [];
-var isSaved = false;
+var isSaved = true;
+/* Edit Modal */
 const editModal = document.getElementById('editModal');
 const editBtn = document.getElementById("saveEdit");
 const editInput = document.getElementById("todo-new");
+/* Save List Modal */
+// const saveModal = document.getElementById('saveModal');
+const saveBtn = document.getElementById("saveList");
+const saveInput = document.getElementById("saveListName");
+
 const addInput = document.getElementById("addInput");
 const addBtn = document.querySelector(".addBtn");
+const currentList = document.getElementById("currentListName");
+/* "Navbar" */
 const newListBtn = document.querySelector(".newListBtn");
 const saveListBtn = document.querySelector(".saveListBtn");
 const loadListBtn = document.querySelector(".loadListBtn");
@@ -64,8 +72,11 @@ function deleteToDo(event){
 
 /*--------------- Listen Funktionen ---------------*/
 function newList(){
+    document.querySelector(".saveListBtn").setAttribute("data-bs-toggle","modal");
     if(document.querySelector(".todoList").innerHTML == "" || isSaved) {
         toDoList = [];
+        markedList = [];
+        currentList.innerHTML = "Unnamed List";
         renderList();
     }
     else {
@@ -74,18 +85,60 @@ function newList(){
 }
 
 function saveList(){
-    let savingList = new ToDoList("Placeholder",toDoList,markedList);
-    //TO-DO: READ NAME FROM USER INPUT ------------------------------------------------------------------------
+    let savingList = new ToDoList(saveInput.value,toDoList,markedList);
     window.localStorage.setItem(savingList.listName,JSON.stringify(savingList));
+    currentList.innerHTML = savingList.listName;
     isSaved = true;
+    saveInput.value = "";
 }
 
-function loadList(){
-    let loadingList = JSON.parse(window.localStorage.getItem("Placeholder"));
+function loadList() {
+    if(!isSaved && !(document.querySelector(".todoList").innerHTML == "")) {
+        alert("Liste nicht gespeichert");
+        return;
+    }
+    let displayList = document.querySelector(".todoList");
+    displayList.innerHTML = "";
+    let heading = document.createElement("li");
+    heading.classList.add("todoItem");
+    heading.innerHTML="<h3>Saved ToDo Lists:</h3>"
+    displayList.appendChild(heading);
+    for(let i=0; i < window.localStorage.length; i++){
+        let renderItem = document.createElement("li");
+        renderItem.classList.add("todoItem");
+        let itemText = document.createElement("span");
+        itemText.innerHTML = window.localStorage.key(i);
+        itemText.setAttribute("listToLoad",window.localStorage.key(i));
+        itemText.addEventListener("click",loadSpecificList);
+        renderItem.appendChild(itemText);
+        displayList.appendChild(renderItem);
+
+        let deleteButton = document.createElement("button");
+        deleteButton.classList.add("loadListBtn");
+        deleteButton.setAttribute("deleteList",window.localStorage.key(i));
+        let deleteIcon = document.createElement("i");
+        deleteIcon.classList.add("fa");
+        deleteIcon.classList.add("fa-trash");
+        deleteButton.appendChild(deleteIcon);
+        deleteButton.addEventListener("click",deleteList);
+        renderItem.appendChild(deleteButton);
+    }
+    document.querySelector(".saveListBtn").setAttribute("data-bs-toggle","");
+}
+function loadSpecificList(event){
+    let listToLoad = event.currentTarget.getAttribute("listToLoad");
+    let loadingList = JSON.parse(window.localStorage.getItem(listToLoad));
     toDoList = loadingList.todos;
     markedList = loadingList.todones;
+    document.querySelector(".saveListBtn").setAttribute("data-bs-toggle","modal");
+    currentList.innerHTML = loadingList.listName;
     isSaved = true;
     renderList();
+}
+
+function deleteList(event){
+    // window.localStorage.removeItem(event.currentTarget.getAttribute("deleteList"));
+    document.querySelector(".toDoList").removeChild(event.currentTarget.parentNode);
 }
 
 function renderList() {
@@ -159,13 +212,13 @@ editModal.addEventListener('show.bs.modal', event => {
     modalBodyInput.value = "";
     modalBodyInput.placeholder = todoContent;
   });
-
-
 editBtn.addEventListener("click",editToDo);
+
+saveBtn.addEventListener("click",saveList);
 addBtn.addEventListener("click",addToDo);
 newListBtn.addEventListener("click",newList);
-saveListBtn.addEventListener("click",saveList);
 loadListBtn.addEventListener("click",loadList);
 
 /*--------------- Init App ---------------*/
+currentList.innerHTML = "Unnamed List";
 renderList();

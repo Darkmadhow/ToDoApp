@@ -20,12 +20,15 @@
   <body>
     <div class="container">
       <nav>
-        <h1>ToDo Can Do</h1>
+        <div class="headerNames">
+          <!-- <h5>ToDo Can Do</h5> -->
+          <h2 id="currentListName"></h2>
+        </div>
         <div class="buttons">
           <button class="newListBtn">
             <i class="fa fa-pencil"></i>
           </button>
-          <button class="saveListBtn">
+          <button type="button" class="saveListBtn" data-bs-toggle="modal" data-bs-target="#saveModal">
             <i class="fa fa-save"></i>
           </button>
           <button class="loadListBtn">
@@ -102,6 +105,52 @@
               data-bs-dismiss="modal"
             >
               Änderung speichern
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ***** Save ToDo List Modal ***** -->
+    <div
+      class="modal fade"
+      id="saveModal"
+      tabindex="-1"
+      aria-labelledby="saveModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="saveModalLabel">ToDo Liste speichern</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="saveListName" class="col-form-label">Name der Liste</label>
+              <input type="text" class="form-control" id="saveListName" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Abbrechen
+            </button>
+            <button
+              type="button"
+              id="saveList"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Liste speichern
             </button>
           </div>
         </div>
