@@ -11,6 +11,17 @@ const newListBtn = document.querySelector(".newListBtn");
 const saveListBtn = document.querySelector(".saveListBtn");
 const loadListBtn = document.querySelector(".loadListBtn");
 
+class ToDoList {
+    listName
+    todos
+    todones
+    constructor(name,todos,todones){
+        this.listName = name;
+        this.todos = todos;
+        this.todones = todones;
+    }
+}
+
 /*--------------- ToDo Funktionen ---------------*/
 function addToDo(event){
     let newToDo = addInput.value;
@@ -18,7 +29,8 @@ function addToDo(event){
         toDoList.push(newToDo);
         renderList();
         addInput.value = "";
-    } 
+        isSaved = false;
+    }
 }
 
 function markToDo(event){
@@ -31,12 +43,14 @@ function markToDo(event){
     else {
         markedList.push(currSpan.innerHTML);
     }
+    isSaved = false;
 }
 
 function editToDo(event){
     let editedToDo = event.currentTarget.getAttribute("editing");
     let index = toDoList.indexOf(editedToDo);
     toDoList[index] = editInput.value;
+    isSaved = false;
     renderList();
 }
 
@@ -44,13 +58,15 @@ function deleteToDo(event){
     let deletingToDo = event.currentTarget.getAttribute('data-bs-todo');
     let index = toDoList.indexOf(deletingToDo);
     toDoList.splice(index,1);
+    isSaved = false;
     renderList();
 }
 
 /*--------------- Listen Funktionen ---------------*/
 function newList(){
     if(document.querySelector(".todoList").innerHTML == "" || isSaved) {
-        console.log("Liste leer oder gespeichert");
+        toDoList = [];
+        renderList();
     }
     else {
         alert("Liste nicht gespeichert");
@@ -58,11 +74,18 @@ function newList(){
 }
 
 function saveList(){
+    let savingList = new ToDoList("Placeholder",toDoList,markedList);
+    //TO-DO: READ NAME FROM USER INPUT ------------------------------------------------------------------------
+    window.localStorage.setItem(savingList.listName,JSON.stringify(savingList));
     isSaved = true;
 }
 
 function loadList(){
-    isSaved = false;
+    let loadingList = JSON.parse(window.localStorage.getItem("Placeholder"));
+    toDoList = loadingList.todos;
+    markedList = loadingList.todones;
+    isSaved = true;
+    renderList();
 }
 
 function renderList() {
@@ -73,6 +96,7 @@ function renderList() {
         renderItem.classList.add("todoItem");
         renderItem.id = index;
         let itemText = document.createElement("span");
+        if(markedList.includes(item)) itemText.classList.add("marked");
         itemText.innerHTML = item;
         itemText.addEventListener("click",markToDo);
         renderItem.appendChild(itemText);
