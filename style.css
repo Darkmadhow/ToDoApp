@@ -27,6 +27,19 @@ nav {
     padding-left: 0;
  }
 
+ h1,h2,h3,h4,h5,h6 {
+    margin-bottom: 0;
+    line-height: var(--bs-body-line-height);
+ }
+ h5 {
+    font-family:Georgia, 'Times New Roman', Times, serif;
+ }
+
+ .headerNames {
+    display: flex;
+    flex-direction: column;
+ }
+
 /*---------- Button Styles ----------*/
 .newListBtn, .saveListBtn, .loadListBtn{
     color: #0019A5;
