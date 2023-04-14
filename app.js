@@ -2,6 +2,7 @@
 var toDoList = []//["Einkaufen","Sport machen","Cookbook verschönern"];
 var markedList = [];
 var isSaved = true;
+var loadOpened = false;
 /* Edit Modal */
 const editModal = document.getElementById('editModal');
 const editBtn = document.getElementById("saveEdit");
@@ -19,6 +20,7 @@ const newListBtn = document.querySelector(".newListBtn");
 const saveListBtn = document.querySelector(".saveListBtn");
 const loadListBtn = document.querySelector(".loadListBtn");
 
+/* Storage Interface */
 class ToDoList {
     listName
     todos
@@ -73,10 +75,12 @@ function deleteToDo(event){
 /*--------------- Listen Funktionen ---------------*/
 function newList(){
     document.querySelector(".saveListBtn").setAttribute("data-bs-toggle","modal");
+    //only allow creation of new lists if the current has been saved
     if(document.querySelector(".todoList").innerHTML == "" || isSaved) {
         toDoList = [];
         markedList = [];
         currentList.innerHTML = "Unnamed List";
+        loadOpened = false;
         renderList();
     }
     else {
@@ -93,16 +97,26 @@ function saveList(){
 }
 
 function loadList() {
+    //Don't allow list loading if the current isn't saved
     if(!isSaved && !(document.querySelector(".todoList").innerHTML == "")) {
         alert("Liste nicht gespeichert");
         return;
     }
+    //Toggle loading list
+    if(loadOpened) {
+        renderList();
+        loadOpened = false;
+        return;
+    }
+    loadOpened = true;
+
     let displayList = document.querySelector(".todoList");
     displayList.innerHTML = "";
     let heading = document.createElement("li");
     heading.classList.add("todoItem");
     heading.innerHTML="<h3>Saved ToDo Lists:</h3>"
     displayList.appendChild(heading);
+    //Read local storage and create a list to show
     for(let i=0; i < window.localStorage.length; i++){
         let renderItem = document.createElement("li");
         renderItem.classList.add("todoItem");
@@ -133,6 +147,7 @@ function loadSpecificList(event){
     document.querySelector(".saveListBtn").setAttribute("data-bs-toggle","modal");
     currentList.innerHTML = loadingList.listName;
     isSaved = true;
+    loadOpened = false;
     renderList();
 }
 
